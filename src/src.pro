@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = libglacierapp
+TARGET = glacierapp
 QT += gui qml
 CONFIG += qt link_pkgconfig
 
@@ -15,14 +15,15 @@ HEADERS += \
 target.path = /usr/lib
 
 public_headers.files = $$HEADERS
-public_headers.path = /usr/include/$${TARGET}
+public_headers.path = /usr/include/lib$${TARGET}
 
 CONFIG += create_pc create_prl no_install_prl
 
-QMAKE_PKGCONFIG_NAME = GlacierApp
+QMAKE_PKGCONFIG_NAME = glacierapp
 QMAKE_PKGCONFIG_DESCRIPTION = Glacier applications wrapper library
 QMAKE_PKGCONFIG_LIBDIR = $$target.path
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
+QMAKE_PKGCONFIG_INCDIR = /usr/include/lib$${TARGET}
 
 MAKE_SUBSTITUTES += $${pkgconfig.files}
 pkgconfig.CONFIG = no_check_exist

@@ -10,7 +10,7 @@ CONFIG += qt link_pkgconfig
 DEPENDPATH += ../src
 INCLUDEPATH += ../src
 
-LIBS += -L../src -llibglacierapp
+LIBS += -L../src -lglacierapp
 
 target.path = /usr/bin
 

@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 
 %files devel
 %{_libdir}/lib*.so
-%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/pkgconfig/glacierapp.pc
 %{_includedir}/%{name}
 
 %files examples
