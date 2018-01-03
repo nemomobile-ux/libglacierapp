@@ -31,6 +31,8 @@
 
 QGuiApplication *GlacierApp::app(int &argc, char **argv)
 {
+    setenv("QT_QUICK_CONTROLS_STYLE", "Nemo", 1);
+
     QGuiApplication *app = new QGuiApplication(argc, argv);
 
     QFileInfo exe = QFileInfo(app->applicationFilePath());
