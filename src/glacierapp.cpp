@@ -58,7 +58,7 @@ QQuickWindow *GlacierApp::showWindow()
 
     QObject *topLevel = engine->rootObjects().first();
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-
+    engine->rootContext()->setContextProperty("__window", window);
     if (!window) {
         qCritical() << "Top object is not Window!";
         engine->deleteLater();
