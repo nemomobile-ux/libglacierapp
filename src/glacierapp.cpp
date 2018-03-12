@@ -64,15 +64,19 @@ QQuickWindow *GlacierApp::showWindow()
         engine->deleteLater();
         return nullptr;
     }
-
-    if (QCoreApplication::arguments().contains("--window") || QCoreApplication::arguments().contains("-w"))
+    if(QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p"))
     {
-        window->show();
+        qDebug() << "Application run in shadow mode";
     }
-    else
-    {
-        window->showFullScreen();
+    else{
+        if (QCoreApplication::arguments().contains("--window") || QCoreApplication::arguments().contains("-w"))
+        {
+            window->show();
+        }
+        else
+        {
+            window->showFullScreen();
+        }
     }
-
     return window;
 }
