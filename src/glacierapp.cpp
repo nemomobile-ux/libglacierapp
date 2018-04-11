@@ -45,23 +45,32 @@ QGuiApplication *GlacierApp::app(int &argc, char **argv)
     return app;
 }
 
+QQmlApplicationEngine *GlacierApp::engine(QObject *parent)
+{
+    static QQmlApplicationEngine* s_engine = nullptr;
+    if (!s_engine)
+    {
+        s_engine = new QQmlApplicationEngine(parent);
+    }
+    return s_engine;
+}
+
 QQuickWindow *GlacierApp::showWindow()
 {
-    QQmlApplicationEngine* engine = new QQmlApplicationEngine(qApp);
+    QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
     engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
     if (engine->rootObjects().isEmpty())
     {
         qCritical() << "Root object is empty";
-        engine->deleteLater();
-        return nullptr;
     }
 
     QObject *topLevel = engine->rootObjects().first();
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     engine->rootContext()->setContextProperty("__window", window);
-    if (!window) {
+
+    if (!window)
+    {
         qCritical() << "Top object is not Window!";
-        engine->deleteLater();
         return nullptr;
     }
     if(QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p"))
