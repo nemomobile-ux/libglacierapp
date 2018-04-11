@@ -23,12 +23,14 @@
 #include <QObject>
 
 class QGuiApplication;
+class QQmlApplicationEngine;
 class QQuickWindow;
 class GlacierApp : public QObject
 {
     Q_OBJECT
 public:
     static QGuiApplication* app(int &argc, char **argv);
+    static QQmlApplicationEngine* engine(QObject *parent = nullptr);
     static QQuickWindow* showWindow();
 
 };
