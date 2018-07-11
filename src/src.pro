@@ -3,6 +3,16 @@ TARGET = glacierapp
 QT += gui qml
 CONFIG += qt link_pkgconfig
 
+packagesExist(qdeclarative5-boostable) {
+    message("Building with qdeclarative-boostable support")
+    LIBS += -rdynamic -lmdeclarativecache5
+    DEFINES += HAVE_CACHE=1
+    QMAKE_CXXFLAGS += -fPIC -I/usr/include/mdeclarativecache5
+    QMAKE_PKGCONFIG_REQUIRES += qdeclarative5-boostable
+} else {
+    warning("qdeclarative-boostable not available; startup times will be slower")
+}
+
 VERSION = 0.1.0
 
 # Input

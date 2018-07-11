@@ -5,7 +5,7 @@
 
 Name:       libglacierapp
 Summary:    Glacier Application library
-Version:    0.2
+Version:    0.3
 Release:    1
 Group:      System/Libraries
 License:    LGPL
@@ -15,6 +15,7 @@ Source0:    %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(qdeclarative5-boostable)
 
 %description
 Wrapper librarary for glacier applications

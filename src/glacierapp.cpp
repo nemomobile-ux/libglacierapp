@@ -29,11 +29,19 @@
 #include <QQmlContext>
 #include <QDebug>
 
+#ifdef HAVE_CACHE
+#include <MDeclarativeCache>
+#endif
+
 QGuiApplication *GlacierApp::app(int &argc, char **argv)
 {
     setenv("QT_QUICK_CONTROLS_STYLE", "Nemo", 1);
 
+#ifdef HAVE_CACHE
+    QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
+#else
     QGuiApplication *app = new QGuiApplication(argc, argv);
+#endif
 
     QFileInfo exe = QFileInfo(app->applicationFilePath());
     app->setApplicationName(exe.fileName());
