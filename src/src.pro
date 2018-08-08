@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = glacierapp
-QT += gui qml
+QT += gui qml quick
 CONFIG += qt link_pkgconfig
 
 packagesExist(qdeclarative5-boostable) {
