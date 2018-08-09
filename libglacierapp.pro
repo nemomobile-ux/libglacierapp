@@ -1,3 +1,3 @@
 TEMPLATE=subdirs
 SUBDIRS += src examples
-example.depends = src
+examples.depends = src
