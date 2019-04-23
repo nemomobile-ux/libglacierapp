@@ -5,13 +5,14 @@
 
 Name:       libglacierapp
 Summary:    Glacier Application library
-Version:    0.3
+Version:    0.4.0
 Release:    1
 Group:      System/Libraries
 License:    LGPL
 URL:        https://github.com/nemomobile-ux/libglacierapp
 Source0:    %{name}-%{version}.tar.bz2
 
+BuildRequires:  pkgconfig(mlite5)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
