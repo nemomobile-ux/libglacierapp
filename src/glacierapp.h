@@ -33,6 +33,8 @@ public:
     static QQmlApplicationEngine* engine(QObject *parent = nullptr);
     static QQuickWindow* showWindow();
 
+private:
+    static void saveWindowSize();
 };
 
 #endif // GLACIERAPP_H

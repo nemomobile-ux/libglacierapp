@@ -33,6 +33,12 @@
 #include <MDeclarativeCache>
 #endif
 
+#ifdef HAS_MLITE5
+#include <MGConfItem>
+#else
+#include <QSettings>
+#endif
+
 QGuiApplication *GlacierApp::app(int &argc, char **argv)
 {
     setenv("QT_QUICK_CONTROLS_STYLE", "Nemo", 1);
@@ -49,6 +55,8 @@ QGuiApplication *GlacierApp::app(int &argc, char **argv)
     QTranslator myappTranslator;
     myappTranslator.load(QStringLiteral("/usr/share/%1/translations/%1_%2.qm").arg(app->applicationName()).arg(QLocale::system().name()));
     app->installTranslator(&myappTranslator);
+
+    connect(app,&QGuiApplication::aboutToQuit, saveWindowSize);
 
     return app;
 }
@@ -81,6 +89,7 @@ QQuickWindow *GlacierApp::showWindow()
         qCritical() << "Top object is not Window!";
         return nullptr;
     }
+
     if(QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p"))
     {
         qDebug() << "Application run in shadow mode";
@@ -88,6 +97,20 @@ QQuickWindow *GlacierApp::showWindow()
     else{
         if (QCoreApplication::arguments().contains("--window") || QCoreApplication::arguments().contains("-w"))
         {
+            /*Load last params of window*/
+#ifdef HAS_MLITE5
+            window->setX((MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
+            window->setY((MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
+            window->setWidth((MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
+            window->setHeight((MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName()))).value(480).toInt());
+#else
+            QSettings settings;
+            window->setX(settings.value("size/x",0).toInt());
+            window->setY(settings.value("size/y",0).toInt());
+            window->setWidth(settings.value("size/w",480).toInt());
+            window->setHeight(settings.value("size/h",640).toInt());
+
+#endif
             window->show();
         }
         else
@@ -96,4 +119,23 @@ QQuickWindow *GlacierApp::showWindow()
         }
     }
     return window;
+}
+
+void GlacierApp::saveWindowSize()
+{
+    QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
+    QObject *topLevel = engine->rootObjects().first();
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+#ifdef HAS_MLITE5
+    MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName())).set(window->x());
+    MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName())).set(window->y());
+    MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName())).set(window->width());
+    MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName())).set(window->height());
+#else
+    QSettings settings;
+    settings.setValue("size/x",window->x());
+    settings.setValue("size/y",window->y());
+    settings.setValue("size/w",window->width());
+    settings.setValue("size/h",window->height());
+#endif
 }

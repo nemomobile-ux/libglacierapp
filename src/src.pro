@@ -13,7 +13,15 @@ packagesExist(qdeclarative5-boostable) {
     warning("qdeclarative-boostable not available; startup times will be slower")
 }
 
-VERSION = 0.1.0
+packagesExist(mlite5) {
+    message("Building with mlite5 support")
+    PKGCONFIG += mlite5
+    DEFINES += HAS_MLITE5
+} else {
+    warning("mlite5 not available;")
+}
+
+VERSION = 0.4.0
 
 # Input
 SOURCES += \
@@ -42,6 +50,3 @@ QMAKE_EXTRA_TARGETS += pkgconfig
 QMAKE_CLEAN += $${pkgconfig.files}
 
 INSTALLS += target public_headers
-
-DISTFILES += \
-    ../rpm/libglacierapp.spec
