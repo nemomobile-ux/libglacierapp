@@ -6,12 +6,13 @@
 Name:       libglacierapp
 Summary:    Glacier Application library
 Version:    0.4.0
-Release:    1
+Release:    2
 Group:      System/Libraries
 License:    LGPL
 URL:        https://github.com/nemomobile-ux/libglacierapp
 Source0:    %{name}-%{version}.tar.bz2
 
+BuildRequires:  cmake
 BuildRequires:  pkgconfig(mlite5)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -41,12 +42,21 @@ Development files for %{name}
 %setup -q -n %{name}-%{version}
 
 %build
-%qtc_qmake5  VERSION=%{version}
-%qtc_make
+mkdir build
+cd build
+cmake \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
+	-DBUILD_EXAMPLES=ON \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	..
+cmake --build .
 
 %install
+cd build
 rm -rf %{buildroot}
-%qmake5_install
+DESTDIR=%{buildroot} cmake --build . --target install
 
 %post -p /sbin/ldconfig
 
@@ -59,6 +69,7 @@ rm -rf %{buildroot}
 %files devel
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/glacierapp.pc
+%{_libdir}/cmake/glacierapp/*.cmake
 %{_includedir}/%{name}
 
 %files examples
