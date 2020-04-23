@@ -5,7 +5,7 @@
 
 Name:       libglacierapp
 Summary:    Glacier Application library
-Version:    0.4.0
+Version:    0.6.0
 Release:    2
 Group:      System/Libraries
 License:    LGPL
