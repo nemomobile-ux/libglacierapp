@@ -45,7 +45,7 @@ Development files for %{name}
 mkdir build
 cd build
 cmake \
-	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_BUILD_TYPE=Debug \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
 	-DBUILD_EXAMPLES=ON \
