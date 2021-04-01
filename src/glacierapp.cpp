@@ -53,7 +53,7 @@ QGuiApplication *GlacierApp::app(int &argc, char **argv)
     app->setApplicationName(exe.fileName());
 
     QTranslator myappTranslator;
-    myappTranslator.load(QStringLiteral("%1/../share/%1/translations/%2_%3.qm").arg(qApp->applicationDirPath()).arg(app->applicationName()).arg(QLocale::system().name()));
+    myappTranslator.load(QStringLiteral("/usr/share/%1/translations/%1_%2.qm").arg(app->applicationName()).arg(QLocale::system().name()));
     app->installTranslator(&myappTranslator);
 
     connect(app,&QGuiApplication::aboutToQuit, saveWindowSize);
@@ -74,8 +74,7 @@ QQmlApplicationEngine *GlacierApp::engine(QObject *parent)
 QQuickWindow *GlacierApp::showWindow()
 {
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
-    engine->load(QUrl::fromLocalFile(QStringLiteral("%1/../share/%2/qml/%2.qml").arg(qApp->applicationDirPath()).arg(QCoreApplication::applicationName())));
-
+    engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
     if (engine->rootObjects().isEmpty())
     {
         qCritical() << "Root object is empty";
