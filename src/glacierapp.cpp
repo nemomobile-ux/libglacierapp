@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2021 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -94,6 +94,12 @@ QQuickWindow *GlacierApp::showWindow()
     if(qgetenv("GLACIER_FORCE_WINDOW_MODE") == "1"){
         forceWindowMode = true;
     }
+#ifdef HAS_MLITE5
+//Check desktop mode in mlite config
+    if(MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool() == true){
+        forceWindowMode = true;
+    }
+#endif
 
     if(QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p"))
     {
