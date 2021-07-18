@@ -37,14 +37,17 @@ int main(int argc, char *argv[])
     bool currentDesktopMode = MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool();
 
     QString desktopMode = parser.value(desktopModeOption);
+
     if(!desktopMode.isEmpty()) {
-        if(desktopMode == "true" || desktopMode == "enable" || desktopMode == "on") {
-            MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).set(true);
+        MGConfItem *desktopModeValue = new MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode"));
+        if(desktopMode == "true" || desktopMode == "enable" || desktopMode == "on" || desktopMode == "1") {
+            desktopModeValue->set(1);
             qDebug() << "Window mode enabled";
-        } else {
-            MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).set(false);
+        } else if (desktopMode == "false" || desktopMode == "disable" || desktopMode == "off" || desktopMode == "0" ){
+            desktopModeValue->set(0);
             qDebug() << "Window mode disabled";
         }
+        desktopModeValue->sync();
     } else {
 // Just print current values
         qDebug() << " desktop mode is" << currentDesktopMode;
