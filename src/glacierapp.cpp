@@ -52,10 +52,17 @@ QGuiApplication *GlacierApp::app(int &argc, char **argv)
     QFileInfo exe = QFileInfo(app->applicationFilePath());
     app->setApplicationName(exe.fileName());
 
-    QTranslator myappTranslator;
-    myappTranslator.load(QStringLiteral("/usr/share/%1/translations/%1_%2.qm").arg(app->applicationName()).arg(QLocale::system().name()));
-    app->installTranslator(&myappTranslator);
-
+    QTranslator* myappTranslator = new QTranslator(app);
+    if (myappTranslator->load(QLocale(), app->applicationName(), QLatin1String("_"), QLatin1String("/usr/share/%1/translations/").arg(app->applicationName()) )) {
+        qDebug() << "translation.load() success" << QLocale::system().name();
+        if (app->installTranslator(myappTranslator)) {
+            qDebug() << "installTranslator() success" << QLocale::system().name();
+        } else {
+            qDebug() << "installTranslator() failed" << QLocale::system().name();
+        }
+    } else {
+        qDebug() << "translation.load() failed" << QLocale::system().name();
+    }
     connect(app,&QGuiApplication::aboutToQuit, saveWindowSize);
 
     return app;
