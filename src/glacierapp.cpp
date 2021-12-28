@@ -84,7 +84,7 @@ QQuickWindow *GlacierApp::showWindow()
     QString rcMain(":/"+QCoreApplication::applicationName()+".qml");
     QFile rcFile(rcMain);
     if(rcFile.exists()) {
-        engine->load(rcMain);
+        engine->load("qrc"+rcMain);
     } else {
         engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
     }
