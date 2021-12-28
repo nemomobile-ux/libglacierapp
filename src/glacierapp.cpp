@@ -81,13 +81,19 @@ QQmlApplicationEngine *GlacierApp::engine(QObject *parent)
 QQuickWindow *GlacierApp::showWindow()
 {
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
-    engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
+    QUrl rcMain("qrc:/"+QCoreApplication::applicationName()+".qml");
+    if(rcMain.isValid()) {
+        engine->load(rcMain);
+    } else {
+        engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
+    }
+
     if (engine->rootObjects().isEmpty())
     {
         qCritical() << "Root object is empty";
     }
 
-    QObject *topLevel = engine->rootObjects().first();
+    QObject *topLevel = engine->rootObjects().constFirst();
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     engine->rootContext()->setContextProperty("__window", window);
 

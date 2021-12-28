@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>glacierexample.qml</file>
+    </qresource>
+</RCC>
