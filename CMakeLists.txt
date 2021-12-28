@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(glacierapp
-        VERSION 0.7.0
+        VERSION 0.8.0
 	DESCRIPTION "Glacier applications wrapper library")
 
 set(CMAKE_AUTOMOC ON)
