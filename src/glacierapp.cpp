@@ -24,6 +24,7 @@
 #include <QtQuick/QQuickView>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QStandardPaths>
 #include <QTranslator>
 #include <QtQml>
 #include <QQmlContext>
@@ -117,7 +118,7 @@ QQuickWindow *GlacierApp::showWindow()
         forceWindowMode = true;
     }
 #ifdef HAS_MLITE5
-//Check desktop mode in mlite config
+    //Check desktop mode in mlite config
     if(MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool() == true){
         forceWindowMode = true;
     }
@@ -164,6 +165,23 @@ void GlacierApp::setLanguage(QLocale::Language lang)
     QSettings settings;
     settings.setValue("lang",lang);
 #endif
+}
+
+void GlacierApp::wipe()
+{
+    //Remove all configs
+#ifdef HAS_MLITE5
+    QStringList appConfigs = MGConfItem(QStringLiteral("/nemo/apps/%1").arg(qApp->applicationName())).listDirs();
+    for (const QString& path : appConfigs) {
+        MGConfItem(path).unset();
+    }
+#endif
+    //Remove ~/.config/<APPNAME>
+    QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).removeRecursively();
+    //Remove ~/.local/share/<APPNAME>
+    QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).removeRecursively();
+    //Remove ~/.cache/<APPNAME>
+    QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).removeRecursively();
 }
 
 void GlacierApp::saveWindowSize()

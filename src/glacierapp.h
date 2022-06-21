@@ -34,6 +34,7 @@ public:
     static QQmlApplicationEngine* engine(QObject *parent = nullptr);
     static QQuickWindow* showWindow();
     static void setLanguage(QLocale::Language lang);
+    static void wipe();
 
 private:
     static void saveWindowSize();
