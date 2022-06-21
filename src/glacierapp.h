@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -21,6 +21,7 @@
 #define GLACIERAPP_H
 
 #include <QObject>
+#include <QLocale>
 
 class QGuiApplication;
 class QQmlApplicationEngine;
@@ -32,6 +33,7 @@ public:
     static QGuiApplication* app(int &argc, char **argv);
     static QQmlApplicationEngine* engine(QObject *parent = nullptr);
     static QQuickWindow* showWindow();
+    static void setLanguage(QLocale::Language lang);
 
 private:
     static void saveWindowSize();

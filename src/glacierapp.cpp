@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2021 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -45,23 +45,31 @@ QGuiApplication *GlacierApp::app(int &argc, char **argv)
 
 #ifdef HAVE_CACHE
     QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
+    QLocale::Language lang = static_cast<QLocale::Language>(MGConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).value(0).toInt())
 #else
     QGuiApplication *app = new QGuiApplication(argc, argv);
+    QSettings settings;
+    QLocale::Language lang = static_cast<QLocale::Language>(settings.value("lang").toInt());
 #endif
+
+    QLocale locale = QLocale::system();
+    if(lang != QLocale::Language::AnyLanguage){
+        locale = QLocale(lang);
+    }
 
     QFileInfo exe = QFileInfo(app->applicationFilePath());
     app->setApplicationName(exe.fileName());
 
     QTranslator* myappTranslator = new QTranslator(app);
-    if (myappTranslator->load(QLocale(), app->applicationName(), QLatin1String("_"), QLatin1String("/usr/share/%1/translations/").arg(app->applicationName()) )) {
-        qDebug() << "translation.load() success" << QLocale::system().name();
+    if (myappTranslator->load(locale, app->applicationName(), QLatin1String("_"), QLatin1String("/usr/share/%1/translations/").arg(app->applicationName()) )) {
+        qDebug() << "translation.load() success" << locale;
         if (app->installTranslator(myappTranslator)) {
-            qDebug() << "installTranslator() success" << QLocale::system().name();
+            qDebug() << "installTranslator() success" << locale;
         } else {
-            qDebug() << "installTranslator() failed" << QLocale::system().name();
+            qDebug() << "installTranslator() failed" << locale;
         }
     } else {
-        qDebug() << "translation.load() failed" << QLocale::system().name();
+        qDebug() << "translation.load() failed" << locale;
     }
     connect(app,&QGuiApplication::aboutToQuit, saveWindowSize);
 
@@ -146,6 +154,16 @@ QQuickWindow *GlacierApp::showWindow()
         }
     }
     return window;
+}
+
+void GlacierApp::setLanguage(QLocale::Language lang)
+{
+#ifdef HAS_MLITE5
+    MGConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).set(lang);
+#else
+    QSettings settings;
+    settings.setValue("lang",lang);
+#endif
 }
 
 void GlacierApp::saveWindowSize()
