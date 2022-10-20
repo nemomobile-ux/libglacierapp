@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -17,17 +17,17 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
-#include <QDebug>
 
 #include <glacierapp.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    QGuiApplication *app = GlacierApp::app(argc, argv);
-    QQuickWindow *window = GlacierApp::showWindow();
+    QGuiApplication* app = GlacierApp::app(argc, argv);
+    QQuickWindow* window = GlacierApp::showWindow();
 
     window->setTitle(QObject::tr("Example"));
 
