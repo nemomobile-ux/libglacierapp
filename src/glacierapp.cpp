@@ -179,7 +179,7 @@ void GlacierApp::wipe()
     //Remove ~/.config/<APPNAME>
     QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).removeRecursively();
     //Remove ~/.local/share/<APPNAME>
-    QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).removeRecursively();
+    QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).removeRecursively();
     //Remove ~/.cache/<APPNAME>
     QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).removeRecursively();
 }
