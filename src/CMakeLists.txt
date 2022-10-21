@@ -1,8 +1,15 @@
 set(SRC glacierapp.cpp)
 set(HEADERS glacierapp.h)
 
-add_library(glacierapp${QT_PKG_VER} SHARED ${SRC} ${HEADERS})
-add_library(Glacier${QT_PKG_VER}::App ALIAS glacierapp${QT_PKG_VER})
+if(USE_QT6)
+    set(PACKAGE glacierapp6)
+else()
+    set(PACKAGE glacierapp)
+endif()
+
+
+add_library(${PACKAGE} SHARED ${SRC} ${HEADERS})
+add_library(Glacier${QT_PKG_VER}::App ALIAS ${PACKAGE})
 
 set(QT_LIB_LIST Core Gui Qml Quick)
 find_qt_package("${QT_LIB_LIST}" REQUIRED )
@@ -10,40 +17,40 @@ add_qt_library(QT_DEPLIBS "${QT_LIB_LIST}")
 
 if(MLITE_FOUND)
     add_definitions(-DHAS_MLITE5)
-    target_link_libraries(glacierapp${QT_PKG_VER} PUBLIC PkgConfig::MLITE ${QT_DEPLIBS})
+    target_link_libraries(${PACKAGE} PUBLIC PkgConfig::MLITE ${QT_DEPLIBS})
 else()
-    target_link_libraries(glacierapp${QT_PKG_VER} ${QT_DEPLIBS})
+    target_link_libraries(${PACKAGE} ${QT_DEPLIBS})
 endif()
 
-target_include_directories(glacierapp${QT_PKG_VER} PUBLIC
+target_include_directories(${PACKAGE} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include/libglacierapp${QT_PKG_VER}>)
+    $<INSTALL_INTERFACE:include/lib${PACKAGE}>)
 
-set_target_properties(glacierapp${QT_PKG_VER} PROPERTIES
+set_target_properties(${PACKAGE} PROPERTIES
     EXPORT_NAME App
     SOVERSION ${PROJECT_VERSION_MAJOR}
     VERSION ${PROJECT_VERSION})
 
 # Install the library
-install(TARGETS glacierapp${QT_PKG_VER}
+install(TARGETS ${PACKAGE}
     EXPORT GlacierTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 # Install headers
 install(FILES ${HEADERS}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libglacierapp${QT_PKG_VER}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/lib${PACKAGE}
     COMPONENT Devel)
 
 # Configure and install the pkgconfig file
 configure_file(libglacierapp.pc.in
-    ${CMAKE_CURRENT_BINARY_DIR}/glacierapp${QT_PKG_VER}.pc
+    ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}.pc
     @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/glacierapp${QT_PKG_VER}.pc
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 # Configure and install the CMake Config file
 include(CMakePackageConfigHelpers)
-set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/glacierapp${QT_PKG_VER}/)
+set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PACKAGE}/)
 
 configure_package_config_file(
     "GlacierConfig.cmake.in"
