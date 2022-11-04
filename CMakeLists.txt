@@ -49,7 +49,7 @@ endif()
 
 install(FILES
     cmake/modules/QtVersionCompat.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PACKAGE}
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules
     COMPONENT Devel)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
