@@ -47,4 +47,9 @@ if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
+install(FILES
+    cmake/modules/QtVersionCompat.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PACKAGE}
+    COMPONENT Devel)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
