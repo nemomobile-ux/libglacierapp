@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(glacierapp
-        VERSION 0.8.0
+        VERSION 1.0.0
 	DESCRIPTION "Glacier applications wrapper library")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 option(BUILD_EXAMPLES "Build the example projects" OFF)
@@ -15,30 +15,41 @@ option(BUILD_EXAMPLES "Build the example projects" OFF)
 include(FindPkgConfig)
 include(FeatureSummary)
 include(GNUInstallDirs)
+include(QtVersionCompat)
 
 set(QT_MIN_VERSION "5.11.0")
-find_package(Qt5 COMPONENTS Gui Qml Quick REQUIRED)
+set(QT_LIB_LIST Core Gui Qml Quick)
+find_qt_package("${QT_LIB_LIST}" REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
 endif()
 
 find_package(PkgConfig)
-pkg_check_modules(MLITE5 mlite5 IMPORTED_TARGET)
-
-if(MLITE5_FOUND)
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite5)
+if(USE_QT6)
+pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
 else()
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite5)
+pkg_check_modules(MLITE mlite5 IMPORTED_TARGET)
+endif()
+
+if(MLITE_FOUND)
+        set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)
+else()
+        set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite)
 endif()
 
 add_subdirectory(src)
-if(MLITE5_FOUND)
+if(MLITE_FOUND)
     add_subdirectory(tools)
 endif()
 
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
+
+install(FILES
+    cmake/modules/QtVersionCompat.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PACKAGE}
+    COMPONENT Devel)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

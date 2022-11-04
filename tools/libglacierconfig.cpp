@@ -17,20 +17,20 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
-#include <QCoreApplication>
-#include <QDebug>
 #include <MGConfItem>
 #include <QCommandLineParser>
+#include <QCoreApplication>
+#include <QDebug>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QCoreApplication app(argc, argv);
 
     QCommandLineParser parser;
-    QCommandLineOption desktopModeOption(QStringList() << "d" << "descktopMode",
-                QCoreApplication::translate("main", "Enable/Disable descktop <mode>"),
-                QCoreApplication::translate("main", "mode"));
+    QCommandLineOption desktopModeOption(QStringList() << "d"
+                                                       << "descktopMode",
+        QCoreApplication::translate("main", "Enable/Disable descktop <mode>"),
+        QCoreApplication::translate("main", "mode"));
     parser.addOption(desktopModeOption);
     parser.process(app);
 
@@ -38,18 +38,18 @@ int main(int argc, char *argv[])
 
     QString desktopMode = parser.value(desktopModeOption);
 
-    if(!desktopMode.isEmpty()) {
-        MGConfItem *desktopModeValue = new MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode"));
-        if(desktopMode == "true" || desktopMode == "enable" || desktopMode == "on" || desktopMode == "1") {
+    if (!desktopMode.isEmpty()) {
+        MGConfItem* desktopModeValue = new MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode"));
+        if (desktopMode == "true" || desktopMode == "enable" || desktopMode == "on" || desktopMode == "1") {
             desktopModeValue->set(1);
             qDebug() << "Window mode enabled";
-        } else if (desktopMode == "false" || desktopMode == "disable" || desktopMode == "off" || desktopMode == "0" ){
+        } else if (desktopMode == "false" || desktopMode == "disable" || desktopMode == "off" || desktopMode == "0") {
             desktopModeValue->set(0);
             qDebug() << "Window mode disabled";
         }
         desktopModeValue->sync();
     } else {
-// Just print current values
+        // Just print current values
         qDebug() << " desktop mode is" << currentDesktopMode;
     }
 

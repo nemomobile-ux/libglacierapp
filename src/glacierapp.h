@@ -20,18 +20,17 @@
 #ifndef GLACIERAPP_H
 #define GLACIERAPP_H
 
-#include <QObject>
 #include <QLocale>
+#include <QObject>
 
 class QGuiApplication;
 class QQmlApplicationEngine;
 class QQuickWindow;
-class GlacierApp : public QObject
-{
+class GlacierApp : public QObject {
     Q_OBJECT
 public:
-    static QGuiApplication* app(int &argc, char **argv);
-    static QQmlApplicationEngine* engine(QObject *parent = nullptr);
+    static QGuiApplication* app(int& argc, char** argv);
+    static QQmlApplicationEngine* engine(QObject* parent = nullptr);
     static QQuickWindow* showWindow();
     static void setLanguage(QLocale::Language lang);
     static void wipe();
