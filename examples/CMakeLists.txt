@@ -8,7 +8,7 @@ if(USE_QT6)
     set(LIB Glacier6::App)
 else()
     set(PACKAGE glacierexample)
-    set(LIB Glacier::App)
+    set(LIB Glacier5::App)
 endif()
 
 add_executable(${PACKAGE} ${SRC} ${RESOURCES})
