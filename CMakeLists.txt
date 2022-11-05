@@ -26,11 +26,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 find_package(PkgConfig)
-if(USE_QT6)
-pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
-else()
-pkg_check_modules(MLITE mlite5 IMPORTED_TARGET)
-endif()
+pkg_check_modules(MLITE mlite${QT_PKG_VER} IMPORTED_TARGET)
 
 if(MLITE_FOUND)
         set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)

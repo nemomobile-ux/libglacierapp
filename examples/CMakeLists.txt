@@ -3,13 +3,8 @@ set(SRC main.cpp)
 find_package(Qt5QuickCompiler)
 qt_add_resources(RESOURCES glacierexample.qrc)
 
-if(USE_QT6)
-    set(PACKAGE glacierexample6)
-    set(LIB Glacier6::App)
-else()
-    set(PACKAGE glacierexample)
-    set(LIB Glacier5::App)
-endif()
+set(PACKAGE glacierexample${LIBGLACIER_PKG_VER})
+set(LIB Glacier${LIBGLACIER_PKG_VER}::App)
 
 add_executable(${PACKAGE} ${SRC} ${RESOURCES})
 
