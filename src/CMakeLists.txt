@@ -1,15 +1,10 @@
 set(SRC glacierapp.cpp)
 set(HEADERS glacierapp.h)
 
-if(USE_QT6)
-    set(PACKAGE glacierapp6)
-else()
-    set(PACKAGE glacierapp)
-endif()
 
-
+set(PACKAGE glacierapp${LIBGLACIER_PKG_VER})
 add_library(${PACKAGE} SHARED ${SRC} ${HEADERS})
-add_library(Glacier${QT_PKG_VER}::App ALIAS ${PACKAGE})
+add_library(Glacier${LIBGLACIER_PKG_VER}::App ALIAS ${PACKAGE})
 
 set(QT_LIB_LIST Core Gui Qml Quick)
 find_qt_package("${QT_LIB_LIST}" REQUIRED )
