@@ -1,6 +1,8 @@
 set(SRC main.cpp)
 
-find_package(Qt5QuickCompiler)
+if(!USE_QT6)
+    find_package(Qt5QuickCompiler)
+endif()
 qt_add_resources(RESOURCES glacierexample.qrc)
 
 if(USE_QT6)
