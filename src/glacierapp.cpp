@@ -121,26 +121,27 @@ QQuickWindow* GlacierApp::showWindow()
     }
 #endif
 
+    /*Load last params of window*/
+#ifdef HAS_MLITE5
+    window->setX((MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
+    window->setY((MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
+    window->setWidth((MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
+    window->setHeight((MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName()))).value(480).toInt());
+#else
+    QSettings settings;
+    window->setX(settings.value("size/x", 0).toInt());
+    window->setY(settings.value("size/y", 0).toInt());
+    window->setWidth(settings.value("size/w", 480).toInt());
+    window->setHeight(settings.value("size/h", 640).toInt());
+
+#endif
+
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
         qDebug() << "Application run in shadow mode";
     } else {
         if (QCoreApplication::arguments().contains("--window")
             || QCoreApplication::arguments().contains("-w")
             || forceWindowMode) {
-            /*Load last params of window*/
-#ifdef HAS_MLITE5
-            window->setX((MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
-            window->setY((MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
-            window->setWidth((MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
-            window->setHeight((MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName()))).value(480).toInt());
-#else
-            QSettings settings;
-            window->setX(settings.value("size/x", 0).toInt());
-            window->setY(settings.value("size/y", 0).toInt());
-            window->setWidth(settings.value("size/w", 480).toInt());
-            window->setHeight(settings.value("size/h", 640).toInt());
-
-#endif
             window->show();
         } else {
             window->showFullScreen();
