@@ -33,7 +33,7 @@
 #include <MDeclarativeCache>
 #endif
 
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
 #include <MGConfItem>
 #else
 #include <QSettings>
@@ -114,7 +114,7 @@ QQuickWindow* GlacierApp::showWindow()
     if (qgetenv("GLACIER_FORCE_WINDOW_MODE") == "1") {
         forceWindowMode = true;
     }
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
     // Check desktop mode in mlite config
     if (MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool() == true) {
         forceWindowMode = true;
@@ -122,7 +122,7 @@ QQuickWindow* GlacierApp::showWindow()
 #endif
 
     /*Load last params of window*/
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
     window->setX((MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
     window->setY((MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
     window->setWidth((MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
@@ -152,7 +152,7 @@ QQuickWindow* GlacierApp::showWindow()
 
 void GlacierApp::setLanguage(QLocale::Language lang)
 {
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
     MGConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).set(lang);
 #else
     QSettings settings;
@@ -163,7 +163,7 @@ void GlacierApp::setLanguage(QLocale::Language lang)
 void GlacierApp::wipe()
 {
     // Remove all configs
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
     QStringList appConfigs = MGConfItem(QStringLiteral("/nemo/apps/%1").arg(qApp->applicationName())).listDirs();
     for (const QString& path : appConfigs) {
         MGConfItem(path).unset();
@@ -182,7 +182,7 @@ void GlacierApp::saveWindowSize()
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
     QObject* topLevel = engine->rootObjects().first();
     QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel);
-#ifdef HAS_MLITE5
+#ifdef HAS_MLITE
     MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName())).set(window->x());
     MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName())).set(window->y());
     MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName())).set(window->width());
