@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(glacierapp
-        VERSION 0.8.0
+        VERSION 1.0.0
 	DESCRIPTION "Glacier applications wrapper library")
 
 set(CMAKE_AUTOMOC ON)
@@ -17,19 +17,24 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 
 set(QT_MIN_VERSION "5.11.0")
-find_package(Qt5 COMPONENTS Gui Qml Quick REQUIRED)
+
+if(NOT DEFINED QT_MAJOR_VERSION)
+    set(QT_MAJOR_VERSION 5)
+endif()
+
+find_package(Qt${QT_MAJOR_VERSION} COMPONENTS Gui Qml Quick REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
 endif()
 
 find_package(PkgConfig)
-pkg_check_modules(MLITE5 mlite5 IMPORTED_TARGET)
+pkg_check_modules(MLITE mlite${QT_MAJOR_VERSION} IMPORTED_TARGET)
 
-if(MLITE5_FOUND)
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite5)
+if(MLITE_FOUND)
+        set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite${QT_MAJOR_VERSION})
 else()
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite5)
+        set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite${QT_MAJOR_VERSION})
 endif()
 
 add_subdirectory(src)
@@ -40,10 +45,5 @@ endif()
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
-
-install(FILES
-    cmake/modules/QtVersionCompat.cmake
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules
-    COMPONENT Devel)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

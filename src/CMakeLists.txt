@@ -5,14 +5,14 @@ add_library(glacierapp SHARED ${SRC} ${HEADERS})
 add_library(Glacier::App ALIAS glacierapp)
 
 target_link_libraries(glacierapp PUBLIC
-	Qt5::Gui
-	Qt5::Qml
-	Qt5::Quick)
+        Qt${QT_MAJOR_VERSION}::Gui
+        Qt${QT_MAJOR_VERSION}::Qml
+        Qt${QT_MAJOR_VERSION}::Quick)
 
-if(MLITE5_FOUND)
-	add_definitions(-DHAS_MLITE5)
+if(MLITE_FOUND)
+        add_definitions(-DHAS_MLITE)
 	target_link_libraries(glacierapp PRIVATE
-		PkgConfig::MLITE5)
+                PkgConfig::MLITE)
 endif()
 
 if(BOOSTABLE_FOUND)
@@ -72,6 +72,3 @@ install(FILES
 	"${CMAKE_CURRENT_BINARY_DIR}/GlacierConfigVersion.cmake"
 	DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 	COMPONENT Devel)
-#export(TARGETS glacierapp
-#	NAMESPACE Glacier::
-#	FILE GlacierTargets.cmake)
