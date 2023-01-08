@@ -28,10 +28,11 @@ int main(int argc, char* argv[])
 
     QCommandLineParser parser;
     QCommandLineOption desktopModeOption(QStringList() << "d"
-                                                       << "descktopMode",
+                                                       << "desktopMode",
         QCoreApplication::translate("main", "Enable/Disable descktop <mode>"),
         QCoreApplication::translate("main", "mode"));
     parser.addOption(desktopModeOption);
+    parser.addHelpOption();
     parser.process(app);
 
     bool currentDesktopMode = MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool();
