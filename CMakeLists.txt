@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(glacierapp
-        VERSION 1.0.0
-	DESCRIPTION "Glacier applications wrapper library")
+    VERSION 1.0.0
+    DESCRIPTION "Glacier applications wrapper library")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 set(CMAKE_AUTOMOC ON)
@@ -22,20 +22,21 @@ set(QT_LIB_LIST Core Gui Qml Quick)
 find_qt_package("${QT_LIB_LIST}" REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
+    set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
 endif()
 
 find_package(PkgConfig)
 if(USE_QT6)
-pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
+    set(EXT_QT 6)
+    pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
 else()
-pkg_check_modules(MLITE mlite5 IMPORTED_TARGET)
+    pkg_check_modules(MLITE mlite5 IMPORTED_TARGET)
 endif()
 
 if(MLITE_FOUND)
-        set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)
 else()
-        set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite)
 endif()
 
 add_subdirectory(src)
