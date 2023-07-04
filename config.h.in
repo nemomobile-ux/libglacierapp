@@ -9,10 +9,11 @@ inline bool isRunningInstalled()
 
 inline QString appDirectory()
 {
-    qDebug() << "isRunningInstalled" << isRunningInstalled();
-    if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/%1/qml/").arg(qApp->applicationName());
-    } else {
-        return QString("@CMAKE_CURRENT_SOURCE_DIR@/qml/");
+    bool installed = isRunningInstalled();
+    QString path = QString("@CMAKE_CURRENT_SOURCE_DIR@/qml/");
+    if (installed) {
+        path = QString("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/%1/qml/").arg(qApp->applicationName());
     }
+    qDebug() << "isRunningInstalled" << installed << path;
+    return path;
 }
