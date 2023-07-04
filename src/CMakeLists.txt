@@ -17,6 +17,9 @@ else()
     target_link_libraries(${PACKAGE} ${QT_DEPLIBS})
 endif()
 
+include_directories(
+    ${CMAKE_BINARY_DIR})
+
 target_include_directories(${PACKAGE} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include/lib${PACKAGE}>)

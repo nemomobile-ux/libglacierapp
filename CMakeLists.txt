@@ -48,6 +48,8 @@ if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
+configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
+
 install(FILES
     cmake/modules/QtVersionCompat.cmake
     DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules
