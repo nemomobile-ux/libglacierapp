@@ -1,0 +1,19 @@
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+
+inline bool isRunningInstalled()
+{
+    static bool installed = (QCoreApplication::applicationDirPath() == "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@");
+    return installed;
+}
+
+inline QString appDirectory()
+{
+    bool installed = isRunningInstalled();
+    QString path = QString("@CMAKE_CURRENT_SOURCE_DIR@/qml/");
+    if (installed) {
+        path = QString("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/%1/qml/").arg(qApp->applicationName());
+    }
+    qDebug() << "isRunningInstalled" << installed << path;
+    return path;
+}

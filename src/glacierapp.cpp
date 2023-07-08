@@ -18,6 +18,7 @@
  */
 
 #include "glacierapp.h"
+#include "config.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -91,10 +92,11 @@ QQuickWindow* GlacierApp::showWindow()
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
     QString rcMain(":/" + QCoreApplication::applicationName() + ".qml");
     QFile rcFile(rcMain);
+
     if (rcFile.exists()) {
         engine->load("qrc" + rcMain);
     } else {
-        engine->load(QUrl::fromLocalFile(QStringLiteral("/usr/share/%1/qml/%1.qml").arg(QCoreApplication::applicationName())));
+        engine->load(QUrl::fromLocalFile(appDirectory() + QStringLiteral("%1.qml").arg(QCoreApplication::applicationName())));
     }
 
     if (engine->rootObjects().isEmpty()) {
