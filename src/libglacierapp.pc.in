@@ -1,11 +1,11 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
-includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@/libglacierapp
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@/libglacierapp@LIBGLACIER_PKG_VER@
 
-Name: glacierapp
+Name: glacierapp@LIBGLACIER_PKG_VER@
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
-Libs: -lglacierapp
+Libs: -lglacierapp@LIBGLACIER_PKG_VER@
 Cflags: -I${includedir}
 Requires: @BOOSTABLE_REQUIRES@
