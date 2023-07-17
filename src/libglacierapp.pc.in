@@ -6,6 +6,6 @@ includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@/libglacierapp
 Name: glacierapp
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
-Libs: -lglacierapp
+Libs: -lglacierapp@EXT_QT@
 Cflags: -I${includedir}
 Requires: @BOOSTABLE_REQUIRES@
