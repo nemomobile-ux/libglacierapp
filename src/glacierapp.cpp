@@ -19,7 +19,10 @@
 
 #include "glacierapp.h"
 #include "config.h"
+#include "dbusadaptor.h"
 
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
 #include <QDebug>
 #include <QFileInfo>
 #include <QGuiApplication>
@@ -126,9 +129,21 @@ QQuickWindow* GlacierApp::showWindow()
     window->setHeight(settings.value("size/h", 640).toInt());
 
 #endif
+    QString serviceName = QString("org.glacier.%1").arg(qApp->applicationName().replace("-", "_"));
+    QDBusConnection sessionBus = QDBusConnection::sessionBus();
+    if (sessionBus.interface()->isServiceRegistered(serviceName)) {
+        qWarning() << "Current application run shadow mode.";
+        QDBusMessage message = QDBusMessage::createMethodCall(serviceName,
+            "/",
+            "glacier.app",
+            "show");
+        sessionBus.call(message);
+        return nullptr;
+    }
 
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
         qDebug() << "Application run in shadow mode";
+        new DBusAdaptor(window);
     } else {
         window->show();
     }
