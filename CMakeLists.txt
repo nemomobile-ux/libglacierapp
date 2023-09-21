@@ -40,9 +40,6 @@ else()
 endif()
 
 add_subdirectory(src)
-if(MLITE_FOUND)
-    add_subdirectory(tools)
-endif()
 
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)

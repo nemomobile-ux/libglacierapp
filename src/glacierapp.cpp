@@ -111,17 +111,6 @@ QQuickWindow* GlacierApp::showWindow()
         qCritical() << "Top object is not Window!";
         return nullptr;
     }
-    // Add GLACIER_FORCE_WINDOW_MODE=1 into /var/lib/compositor/*.conf to run all app in window mode
-    bool forceWindowMode = false;
-    if (qgetenv("GLACIER_FORCE_WINDOW_MODE") == "1") {
-        forceWindowMode = true;
-    }
-#ifdef HAS_MLITE5
-    // Check desktop mode in mlite config
-    if (MGConfItem(QStringLiteral("/nemo/apps/libglacier/desktopmode")).value(0).toBool() == true) {
-        forceWindowMode = true;
-    }
-#endif
 
     /*Load last params of window*/
 #ifdef HAS_MLITE5
@@ -141,13 +130,7 @@ QQuickWindow* GlacierApp::showWindow()
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
         qDebug() << "Application run in shadow mode";
     } else {
-        if (QCoreApplication::arguments().contains("--window")
-            || QCoreApplication::arguments().contains("-w")
-            || forceWindowMode) {
-            window->show();
-        } else {
-            window->showFullScreen();
-        }
+        window->show();
     }
     return window;
 }
