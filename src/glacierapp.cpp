@@ -78,6 +78,22 @@ QGuiApplication* GlacierApp::app(int& argc, char** argv)
     }
     connect(app, &QGuiApplication::aboutToQuit, saveWindowSize);
 
+    if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
+        app->setQuitOnLastWindowClosed(false);
+    }
+
+    QString serviceName = QString("org.glacier.%1").arg(qApp->applicationName().replace("-", "_"));
+    QDBusConnection sessionBus = QDBusConnection::sessionBus();
+    if (sessionBus.interface()->isServiceRegistered(serviceName)) {
+        qWarning() << "Current application run shadow mode. Call and exit.";
+        QDBusMessage message = QDBusMessage::createMethodCall(serviceName,
+            "/",
+            "glacier.app",
+            "show");
+        sessionBus.call(message);
+        QTimer::singleShot(0, qApp, SLOT(quit()));
+    }
+
     return app;
 }
 
@@ -129,17 +145,6 @@ QQuickWindow* GlacierApp::showWindow()
     window->setHeight(settings.value("size/h", 640).toInt());
 
 #endif
-    QString serviceName = QString("org.glacier.%1").arg(qApp->applicationName().replace("-", "_"));
-    QDBusConnection sessionBus = QDBusConnection::sessionBus();
-    if (sessionBus.interface()->isServiceRegistered(serviceName)) {
-        qWarning() << "Current application run shadow mode.";
-        QDBusMessage message = QDBusMessage::createMethodCall(serviceName,
-            "/",
-            "glacier.app",
-            "show");
-        sessionBus.call(message);
-        return nullptr;
-    }
 
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
         qDebug() << "Application run in shadow mode";
@@ -147,6 +152,7 @@ QQuickWindow* GlacierApp::showWindow()
     } else {
         window->show();
     }
+
     return window;
 }
 

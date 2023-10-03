@@ -13,6 +13,7 @@ public:
 
 public slots:
     void show(QStringList args = QStringList());
+    void quit(QStringList args = QStringList());
 
 private:
     QQuickWindow* m_window;

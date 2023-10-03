@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
 {
     QGuiApplication* app = GlacierApp::app(argc, argv);
     QQuickWindow* window = GlacierApp::showWindow();
-
     window->setTitle(QObject::tr("Example"));
 
     app->exec();

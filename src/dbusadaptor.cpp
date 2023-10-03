@@ -22,3 +22,10 @@ void DBusAdaptor::show(QStringList args)
     qDebug() << "show window from dbus call";
     m_window->show();
 }
+
+void DBusAdaptor::quit(QStringList args)
+{
+    Q_UNUSED(args);
+    qDebug() << "quit over dbus";
+    qApp->quit();
+}
