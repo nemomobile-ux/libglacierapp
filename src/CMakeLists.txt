@@ -1,12 +1,12 @@
-set(SRC glacierapp.cpp)
+set(SRC glacierapp.cpp dbusadaptor.cpp)
 set(HEADERS glacierapp.h)
-
+set(PRIVATE_HEADERS dbusadaptor.h)
 
 set(PACKAGE glacierapp${LIBGLACIER_PKG_VER})
-add_library(${PACKAGE} SHARED ${SRC} ${HEADERS})
+add_library(${PACKAGE} SHARED ${SRC} ${HEADERS} ${PRIVATE_HEADERS})
 add_library(Glacier${LIBGLACIER_PKG_VER}::App ALIAS ${PACKAGE})
 
-set(QT_LIB_LIST Core Gui Qml Quick)
+set(QT_LIB_LIST Core Gui Qml Quick DBus)
 find_qt_package("${QT_LIB_LIST}" REQUIRED )
 add_qt_library(QT_DEPLIBS "${QT_LIB_LIST}")
 

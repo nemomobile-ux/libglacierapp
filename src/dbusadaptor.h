@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2023 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -17,18 +17,25 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QDebug>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#ifndef DBUSADAPTOR_H
+#define DBUSADAPTOR_H
+
+#include <QDBusAbstractAdaptor>
 #include <QQuickWindow>
 
-#include <glacierapp.h>
+class DBusAdaptor : public QDBusAbstractAdaptor {
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "glacier.app")
 
-int main(int argc, char* argv[])
-{
-    QGuiApplication* app = GlacierApp::app(argc, argv);
-    QQuickWindow* window = GlacierApp::showWindow();
-    window->setTitle(QObject::tr("Example"));
+public:
+    explicit DBusAdaptor(QQuickWindow* window);
 
-    app->exec();
-}
+public slots:
+    void show(QStringList args = QStringList());
+    void quit(QStringList args = QStringList());
+
+private:
+    QQuickWindow* m_window;
+};
+
+#endif // DBUSADAPTOR_H
