@@ -1,6 +1,6 @@
 #include <QCoreApplication>
 #include <QDir>
-#include <QDebug>
+#include <glacierapp.h>
 
 inline bool isRunningInstalled()
 {
@@ -14,6 +14,6 @@ inline QString appDirectory()
     if (installed) {
         path = QString("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/%1/qml/").arg(qApp->applicationName());
     }
-    qDebug() << "isRunningInstalled" << installed << path;
+    qCDebug(lcGlacierAppCoreLog) << "isRunningInstalled" << installed << path;
     return path;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2024 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,7 +23,6 @@
 
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
-#include <QDebug>
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -42,6 +41,8 @@
 #else
 #include <QSettings>
 #endif
+
+Q_LOGGING_CATEGORY(lcGlacierAppCoreLog, "org.glacier.app", QtWarningMsg)
 
 QGuiApplication* GlacierApp::app(int& argc, char** argv)
 {
@@ -67,14 +68,14 @@ QGuiApplication* GlacierApp::app(int& argc, char** argv)
 
     QTranslator* myappTranslator = new QTranslator(app);
     if (myappTranslator->load(locale, app->applicationName(), QLatin1String("_"), QLatin1String("/usr/share/%1/translations/").arg(app->applicationName()))) {
-        qDebug() << "translation.load() success" << locale;
+        qCDebug(lcGlacierAppCoreLog) << "translation.load() success" << locale;
         if (app->installTranslator(myappTranslator)) {
-            qDebug() << "installTranslator() success" << locale;
+            qCDebug(lcGlacierAppCoreLog) << "installTranslator() success" << locale;
         } else {
-            qDebug() << "installTranslator() failed" << locale;
+            qCDebug(lcGlacierAppCoreLog) << "installTranslator() failed" << locale;
         }
     } else {
-        qDebug() << "translation.load() failed" << locale;
+        qCDebug(lcGlacierAppCoreLog) << "translation.load() failed" << locale;
     }
     connect(app, &QGuiApplication::aboutToQuit, saveWindowSize);
 
@@ -85,7 +86,7 @@ QGuiApplication* GlacierApp::app(int& argc, char** argv)
     QString serviceName = QString("org.glacier.%1").arg(qApp->applicationName().replace("-", "_"));
     QDBusConnection sessionBus = QDBusConnection::sessionBus();
     if (sessionBus.interface()->isServiceRegistered(serviceName)) {
-        qWarning() << "Current application run shadow mode. Call and exit.";
+        qCWarning(lcGlacierAppCoreLog) << "Current application run shadow mode. Call and exit.";
         QDBusMessage message = QDBusMessage::createMethodCall(serviceName,
             "/",
             "glacier.app",
@@ -147,7 +148,7 @@ QQuickWindow* GlacierApp::showWindow()
 #endif
 
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
-        qDebug() << "Application run in shadow mode";
+        qCDebug(lcGlacierAppCoreLog) << "Application run in shadow mode";
         new DBusAdaptor(window);
     } else {
         window->show();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2023-2024 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -17,6 +17,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include "glacierapp.h"
 #include "dbusadaptor.h"
 #include "qcoreapplication.h"
 
@@ -26,25 +27,24 @@ DBusAdaptor::DBusAdaptor(QQuickWindow* window)
     : QDBusAbstractAdaptor(window)
     , m_window(window)
 {
-    QDBusConnection sessionbus = QDBusConnection::sessionBus();
     QString serviceName = QString("org.glacier.%1").arg(qApp->applicationName().replace("-", "_"));
 
     QDBusConnection::sessionBus().registerService(serviceName);
     if (!QDBusConnection::sessionBus().registerObject("/", m_window)) {
-        qWarning() << Q_FUNC_INFO << "Cannot register DBus object!";
+        qCWarning(lcGlacierAppCoreLog) << Q_FUNC_INFO << "Cannot register DBus object!";
     };
 }
 
 void DBusAdaptor::show(QStringList args)
 {
     Q_UNUSED(args);
-    qDebug() << "show window from dbus call";
+    qCDebug(lcGlacierAppCoreLog) << "show window from dbus call";
     m_window->show();
 }
 
 void DBusAdaptor::quit(QStringList args)
 {
     Q_UNUSED(args);
-    qDebug() << "quit over dbus";
+    qCDebug(lcGlacierAppCoreLog) << "quit over dbus";
     qApp->quit();
 }
