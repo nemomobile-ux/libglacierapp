@@ -21,8 +21,8 @@
 #define GLACIERAPP_H
 
 #include <QLocale>
-#include <QObject>
 #include <QLoggingCategory>
+#include <QObject>
 
 Q_DECLARE_LOGGING_CATEGORY(lcGlacierAppCoreLog)
 

@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "glacierapp.h"
 #include "dbusadaptor.h"
+#include "glacierapp.h"
 #include "qcoreapplication.h"
 
 #include <QDBusConnection>
