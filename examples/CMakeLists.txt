@@ -5,7 +5,7 @@ if(!USE_QT6)
 endif()
 qt_add_resources(RESOURCES glacierexample.qrc)
 
-set(PACKAGE glacierexample${LIBGLACIER_PKG_VER})
+set(PACKAGE glacierexample)
 set(LIB Glacier${LIBGLACIER_PKG_VER}::App)
 
 add_executable(${PACKAGE} ${SRC} ${RESOURCES})
