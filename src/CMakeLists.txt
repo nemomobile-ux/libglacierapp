@@ -11,7 +11,7 @@ find_qt_package("${QT_LIB_LIST}" REQUIRED )
 add_qt_library(QT_DEPLIBS "${QT_LIB_LIST}")
 
 if(MLITE_FOUND)
-    add_definitions(-DHAS_MLITE5)
+    add_definitions(-DHAS_MLITE)
     target_link_libraries(${PACKAGE} PUBLIC ${QT_DEPLIBS} PRIVATE PkgConfig::MLITE)
 else()
     target_link_libraries(${PACKAGE} ${QT_DEPLIBS})

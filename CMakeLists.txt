@@ -17,7 +17,7 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 include(QtVersionCompat)
 
-set(QT_MIN_VERSION "5.11.0")
+set(QT_MIN_VERSION "6.0.0")
 set(QT_LIB_LIST Core Gui Qml Quick)
 find_qt_package("${QT_LIB_LIST}" REQUIRED)
 
@@ -26,12 +26,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 find_package(PkgConfig)
-if(USE_QT6)
-    set(EXT_QT 6)
-    pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
-else()
-    pkg_check_modules(MLITE mlite5 IMPORTED_TARGET)
-endif()
+pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
 
 if(MLITE_FOUND)
     set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)

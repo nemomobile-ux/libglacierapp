@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2024 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2025 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -36,8 +36,8 @@
 #include <MDeclarativeCache>
 #endif
 
-#ifdef HAS_MLITE5
-#include <MGConfItem>
+#ifdef HAS_MLITE
+#include <MDConfItem>
 #else
 #include <QSettings>
 #endif
@@ -50,7 +50,7 @@ QGuiApplication* GlacierApp::app(int& argc, char** argv)
 
 #ifdef HAVE_CACHE
     QGuiApplication* app = MDeclarativeCache::qApplication(argc, argv);
-    QLocale::Language lang = static_cast<QLocale::Language>(MGConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).value(0).toInt())
+    QLocale::Language lang = static_cast<QLocale::Language>(MDConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).value(0).toInt())
 #else
     QGuiApplication* app = new QGuiApplication(argc, argv);
     QSettings settings;
@@ -133,11 +133,11 @@ QQuickWindow* GlacierApp::showWindow()
     }
 
     /*Load last params of window*/
-#ifdef HAS_MLITE5
-    window->setX((MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
-    window->setY((MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
-    window->setWidth((MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
-    window->setHeight((MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName()))).value(480).toInt());
+#ifdef HAS_MLITE
+    window->setX((MDConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName()))).value(0).toInt());
+    window->setY((MDConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName()))).value(0).toInt());
+    window->setWidth((MDConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName()))).value(480).toInt());
+    window->setHeight((MDConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName()))).value(480).toInt());
 #else
     QSettings settings;
     window->setX(settings.value("size/x", 0).toInt());
@@ -159,8 +159,8 @@ QQuickWindow* GlacierApp::showWindow()
 
 void GlacierApp::setLanguage(QLocale::Language lang)
 {
-#ifdef HAS_MLITE5
-    MGConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).set(lang);
+#ifdef HAS_MLITE
+    MDConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).set(lang);
 #else
     QSettings settings;
     settings.setValue("lang", lang);
@@ -170,10 +170,10 @@ void GlacierApp::setLanguage(QLocale::Language lang)
 void GlacierApp::wipe()
 {
     // Remove all configs
-#ifdef HAS_MLITE5
-    QStringList appConfigs = MGConfItem(QStringLiteral("/nemo/apps/%1").arg(qApp->applicationName())).listDirs();
+#ifdef HAS_MLITE
+    QStringList appConfigs = MDConfItem(QStringLiteral("/nemo/apps/%1").arg(qApp->applicationName())).listDirs();
     for (const QString& path : appConfigs) {
-        MGConfItem(path).unset();
+        MDConfItem(path).unset();
     }
 #endif
     // Remove ~/.config/<APPNAME>
@@ -189,11 +189,11 @@ void GlacierApp::saveWindowSize()
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
     QObject* topLevel = engine->rootObjects().first();
     QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel);
-#ifdef HAS_MLITE5
-    MGConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName())).set(window->x());
-    MGConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName())).set(window->y());
-    MGConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName())).set(window->width());
-    MGConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName())).set(window->height());
+#ifdef HAS_MLITE
+    MDConfItem(QStringLiteral("/nemo/apps/%1/size/x").arg(qApp->applicationName())).set(window->x());
+    MDConfItem(QStringLiteral("/nemo/apps/%1/size/y").arg(qApp->applicationName())).set(window->y());
+    MDConfItem(QStringLiteral("/nemo/apps/%1/size/w").arg(qApp->applicationName())).set(window->width());
+    MDConfItem(QStringLiteral("/nemo/apps/%1/size/h").arg(qApp->applicationName())).set(window->height());
 #else
     QSettings settings;
     settings.setValue("size/x", window->x());
