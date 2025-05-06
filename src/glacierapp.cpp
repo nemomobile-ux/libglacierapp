@@ -107,16 +107,20 @@ QQmlApplicationEngine* GlacierApp::engine(QObject* parent)
     return s_engine;
 }
 
-QQuickWindow* GlacierApp::showWindow()
+QQuickWindow* GlacierApp::showWindow(QString rootQMLPath)
 {
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
-    QString rcMain(":/" + QCoreApplication::applicationName() + ".qml");
-    QFile rcFile(rcMain);
+    if(rootQMLPath.isEmpty()) {
+        QString rcMain(":/" + QCoreApplication::applicationName() + ".qml");
+        QFile rcFile(rcMain);
 
-    if (rcFile.exists()) {
-        engine->load("qrc" + rcMain);
+        if (rcFile.exists()) {
+            engine->load("qrc" + rcMain);
+        } else {
+            engine->load(QUrl::fromLocalFile(appDirectory() + QStringLiteral("%1.qml").arg(QCoreApplication::applicationName())));
+        }
     } else {
-        engine->load(QUrl::fromLocalFile(appDirectory() + QStringLiteral("%1.qml").arg(QCoreApplication::applicationName())));
+        engine->load(QUrl::fromLocalFile(rootQMLPath));
     }
 
     if (engine->rootObjects().isEmpty()) {
@@ -155,6 +159,11 @@ QQuickWindow* GlacierApp::showWindow()
     }
 
     return window;
+}
+
+QQuickWindow *GlacierApp::showWindow()
+{
+    return showWindow(QString());
 }
 
 void GlacierApp::setLanguage(QLocale::Language lang)

@@ -34,6 +34,7 @@ class GlacierApp : public QObject {
 public:
     static QGuiApplication* app(int& argc, char** argv);
     static QQmlApplicationEngine* engine(QObject* parent = nullptr);
+    static QQuickWindow* showWindow(QString rootQMLPath);
     static QQuickWindow* showWindow();
     static void setLanguage(QLocale::Language lang);
     static void wipe();
