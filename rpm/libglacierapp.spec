@@ -2,7 +2,7 @@
 %define libname libglacierapp-qt6-1
 Name:       libglacierapp-qt6
 Summary:    Glacier Application library
-Version:    1.1
+Version:    1.2
 Release:    1
 Group:      System/Libraries
 License:    LGPL-2.0-or-later

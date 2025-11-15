@@ -1,6 +1,5 @@
-set(SRC glacierapp.cpp dbusadaptor.cpp)
+set(SRC glacierapp.cpp )
 set(HEADERS glacierapp.h)
-set(PRIVATE_HEADERS dbusadaptor.h)
 
 set(PACKAGE glacierapp${LIBGLACIER_PKG_VER})
 add_library(${PACKAGE} SHARED ${SRC} ${HEADERS} ${PRIVATE_HEADERS})

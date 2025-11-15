@@ -19,7 +19,6 @@
 
 #include "glacierapp.h"
 #include "config.h"
-#include "dbusadaptor.h"
 
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
@@ -153,7 +152,6 @@ QQuickWindow* GlacierApp::showWindow(QString rootQMLPath)
 
     if (QCoreApplication::arguments().contains("--prestart") || QCoreApplication::arguments().contains("-p")) {
         qCDebug(lcGlacierAppCoreLog) << "Application run in shadow mode";
-        new DBusAdaptor(window);
     } else {
         window->show();
     }
