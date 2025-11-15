@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.10.0)
 
+# Optionally, you can set default values if PROJECT_VERSION is not provided
+if(NOT PROJECT_VERSION)
+    set(PROJECT_VERSION "1.2" CACHE STRING "Default project version")
+endif()
+
+
 project(glacierapp
-    VERSION 1.2
+    VERSION ${PROJECT_VERSION}
     DESCRIPTION "Glacier applications wrapper library")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
