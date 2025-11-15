@@ -5,16 +5,21 @@ set(PACKAGE glacierapp${LIBGLACIER_PKG_VER})
 add_library(${PACKAGE} SHARED ${SRC} ${HEADERS} ${PRIVATE_HEADERS})
 add_library(Glacier${LIBGLACIER_PKG_VER}::App ALIAS ${PACKAGE})
 
-set(QT_LIB_LIST Core Gui Qml Quick DBus)
-find_qt_package("${QT_LIB_LIST}" REQUIRED )
-add_qt_library(QT_DEPLIBS "${QT_LIB_LIST}")
+find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED )
 
 if(MLITE_FOUND)
     add_definitions(-DHAS_MLITE)
-    target_link_libraries(${PACKAGE} PUBLIC ${QT_DEPLIBS} PRIVATE PkgConfig::MLITE)
-else()
-    target_link_libraries(${PACKAGE} ${QT_DEPLIBS})
+    set(MLITELIB "PkgConfig::MLITE")
 endif()
+
+target_link_libraries(${PACKAGE} PUBLIC
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    ${MLITELIB}
+    )
+
 
 include_directories(
     ${CMAKE_BINARY_DIR})

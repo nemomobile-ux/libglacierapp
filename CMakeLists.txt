@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.10.0)
 
 project(glacierapp
     VERSION 1.2
@@ -15,11 +15,9 @@ option(BUILD_EXAMPLES "Build the example projects" OFF)
 include(FindPkgConfig)
 include(FeatureSummary)
 include(GNUInstallDirs)
-include(QtVersionCompat)
 
 set(QT_MIN_VERSION "6.0.0")
-set(QT_LIB_LIST Core Gui Qml Quick)
-find_qt_package("${QT_LIB_LIST}" REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
@@ -41,10 +39,5 @@ if(BUILD_EXAMPLES)
 endif()
 
 configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
-
-install(FILES
-    cmake/modules/QtVersionCompat.cmake
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules
-    COMPONENT Devel)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -2,12 +2,12 @@
 %define libname libglacierapp-qt6-1
 Name:       libglacierapp-qt6
 Summary:    Glacier Application library
-Version:    1.2.1
+Version:    1.2
 Release:    1
 Group:      System/Libraries
 License:    LGPL-2.0-or-later
 URL:        https://github.com/nemomobile-ux/libglacierapp
-Source0:    %{rname}-%{version}.tar.gz
+Source0:    https://github.com/nemomobile-ux/%{rname}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(mlite6)
