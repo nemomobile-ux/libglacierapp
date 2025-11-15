@@ -11,12 +11,14 @@ set(LIB Glacier${LIBGLACIER_PKG_VER}::App)
 add_executable(${PACKAGE} ${SRC} ${RESOURCES})
 
 set(QT_LIB_LIST Core Gui Qml Quick)
-find_qt_package("${QT_LIB_LIST}" REQUIRED )
-add_qt_library(QT_DEPLIBS "${QT_LIB_LIST}")
+find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED)
 
 target_link_libraries(${PACKAGE}
-        ${QT_DEPLIBS}
-        ${LIB})
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    ${LIB})
 
 install(TARGETS ${PACKAGE} RUNTIME
 	DESTINATION ${CMAKE_INSTALL_BINDIR})

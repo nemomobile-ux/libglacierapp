@@ -109,7 +109,7 @@ QQmlApplicationEngine* GlacierApp::engine(QObject* parent)
 QQuickWindow* GlacierApp::showWindow(QString rootQMLPath)
 {
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
-    if(rootQMLPath.isEmpty()) {
+    if (rootQMLPath.isEmpty()) {
         QString rcMain(":/" + QCoreApplication::applicationName() + ".qml");
         QFile rcFile(rcMain);
 
@@ -159,7 +159,7 @@ QQuickWindow* GlacierApp::showWindow(QString rootQMLPath)
     return window;
 }
 
-QQuickWindow *GlacierApp::showWindow()
+QQuickWindow* GlacierApp::showWindow()
 {
     return showWindow(QString());
 }
