@@ -9,7 +9,7 @@ find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED )
 
 if(MLITE_FOUND)
     add_definitions(-DHAS_MLITE)
-    set(MLITELIB "PkgConfig::MLITE")
+    set(MLITE6 "PkgConfig::MLITE6")
 endif()
 
 target_link_libraries(${PACKAGE} PUBLIC
@@ -17,7 +17,7 @@ target_link_libraries(${PACKAGE} PUBLIC
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
-    ${MLITELIB}
+    ${MLITE6}
     )
 
 

@@ -30,7 +30,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 find_package(PkgConfig)
-pkg_check_modules(MLITE mlite6 IMPORTED_TARGET)
+pkg_check_modules(MLITE6 mlite6 IMPORTED_TARGET)
 
 if(MLITE_FOUND)
     set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)
