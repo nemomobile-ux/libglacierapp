@@ -3,13 +3,18 @@ set(HEADERS glacierapp.h)
 
 set(PACKAGE glacierapp${LIBGLACIER_PKG_VER})
 add_library(${PACKAGE} SHARED ${SRC} ${HEADERS} ${PRIVATE_HEADERS})
-add_library(Glacier${LIBGLACIER_PKG_VER}::App ALIAS ${PACKAGE})
+add_library(Glacier::App ALIAS ${PACKAGE})
 
 find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED )
 
-if(MLITE_FOUND)
+if(MLITE6_FOUND)
     add_definitions(-DHAS_MLITE)
     set(MLITE6 "PkgConfig::MLITE6")
+endif()
+
+if(MDECLARATIVE_FOUND)
+    add_definitions(-DHAVE_CACHE)
+    set(MDECLARATIVE "PkgConfig::MDECLARATIVE")
 endif()
 
 target_link_libraries(${PACKAGE} PUBLIC
@@ -17,8 +22,8 @@ target_link_libraries(${PACKAGE} PUBLIC
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
-    Qt6::DBus
     ${MLITE6}
+    ${MDECLARATIVE}
     )
 
 

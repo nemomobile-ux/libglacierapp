@@ -23,7 +23,7 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 
 set(QT_MIN_VERSION "6.0.0")
-find_package(Qt6 COMPONENTS Core Gui Qml Quick DBus REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
@@ -31,11 +31,18 @@ endif()
 
 find_package(PkgConfig)
 pkg_check_modules(MLITE6 mlite6 IMPORTED_TARGET)
+pkg_check_modules(MDECLARATIVE qdeclarative6-boostable IMPORTED_TARGET)
 
-if(MLITE_FOUND)
-    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite)
+if(MLITE6_FOUND)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND mlite6)
 else()
-    set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND mlite6)
+endif()
+
+if(MDECLARATIVE_FOUND)
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND qdeclarative6-boostable)
+else()
+    set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND qdeclarative6-boostable)
 endif()
 
 add_subdirectory(src)
