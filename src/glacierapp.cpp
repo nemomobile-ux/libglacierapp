@@ -194,6 +194,11 @@ void GlacierApp::wipe()
 void GlacierApp::saveWindowSize()
 {
     QQmlApplicationEngine* engine = GlacierApp::engine(qApp);
+    if (engine->rootObjects().isEmpty()) {
+        qCritical() << "Root object is empty";
+        return;
+    }
+
     QObject* topLevel = engine->rootObjects().first();
     QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel);
 #ifdef HAS_MLITE
