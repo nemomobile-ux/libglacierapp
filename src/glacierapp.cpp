@@ -49,15 +49,15 @@ QGuiApplication* GlacierApp::app(int& argc, char** argv)
 
 #ifdef HAVE_CACHE
     QGuiApplication* app = MDeclarativeCache::qApplication(argc, argv);
-    QLocale::Language lang = static_cast<QLocale::Language>(MDConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(qApp->applicationName())).value(0).toInt())
+    QLocale::Language lang = static_cast<QLocale::Language>(MDConfItem(QStringLiteral("/nemo/apps/%1/lang").arg(app->applicationName())).value(0).toInt())
 #else
     QGuiApplication* app = new QGuiApplication(argc, argv);
     QSettings settings;
     QLocale::Language lang = static_cast<QLocale::Language>(settings.value("lang").toInt());
 #endif
 
-        QLocale locale
-        = QLocale::system();
+    QLocale locale = QLocale::system();
+
     if (lang != QLocale::Language::AnyLanguage) {
         locale = QLocale(lang);
     }
